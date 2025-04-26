@@ -1,10 +1,38 @@
 import { useNavigation } from '@react-navigation/native';
-import React from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, ScrollView, KeyboardAvoidingView, Platform, Dimensions } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, ScrollView, KeyboardAvoidingView, Platform, Dimensions, Alert } from 'react-native';
+import { postLogin } from '../Api-requests/LoginApi';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const { width, height } = Dimensions.get('window');
 
 const LoginScreen = () => {
     const navigation = useNavigation();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
+
+    const handleLogin = async () => {
+        if (!email || !password) {
+          Alert.alert('Error', 'Please enter email and password.');
+          return;
+        }
+      
+        try {
+          const loginData = { email, password };
+          const response = await postLogin(loginData);
+          console.log('Login success', response);
+      
+          if (response?.token) {
+            await AsyncStorage.setItem('userToken', response.token);
+          }
+      
+          navigation.navigate('Home' as never);
+        } catch (error: any) {
+          console.error('Login failed', error.message);
+          Alert.alert('Login Failed', error.message || 'Something went wrong.');
+        }
+      };
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
@@ -16,7 +44,7 @@ const LoginScreen = () => {
         keyboardShouldPersistTaps="handled"
       >
         <Image
-          source={require('../assets/xlr-logo.png')} // put your XLR logo in assets folder
+          source={require('../assets/xlr-logo.png')}
           style={styles.logo}
           resizeMode="contain"
         />
@@ -26,7 +54,6 @@ const LoginScreen = () => {
             <Text style={styles.subtitle}>Log Into Your Account</Text>
         </View>
 
-
         <View style={styles.inputContainer}>
           <Text style={styles.label}>Email</Text>
           <TextInput
@@ -34,24 +61,36 @@ const LoginScreen = () => {
             placeholder="Enter email..."
             keyboardType="email-address"
             placeholderTextColor="#ccc"
+            onChangeText={(text) => setEmail(text)}
           />
         </View>
 
         <View style={styles.inputContainer}>
           <Text style={styles.label}>Password</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Enter password..."
-            secureTextEntry
-            placeholderTextColor="#ccc"
-          />
+          <View style={styles.passwordInputContainer}>
+            <TextInput
+              style={styles.passwordInput}
+              placeholder="Enter password..."
+              secureTextEntry={!showPassword}
+              placeholderTextColor="#ccc"
+              onChangeText={(text) => setPassword(text)}
+            />
+            <TouchableOpacity 
+              style={styles.showHideButton}
+              onPress={() => setShowPassword(!showPassword)}
+            >
+              <Text style={styles.showHideText}>
+                {showPassword ? 'HIDE' : 'SHOW'}
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
 
-        <TouchableOpacity style={styles.loginButton}>
+        <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
           <Text style={styles.loginText}>LOGIN</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.forgotContainer} onPress={() => navigation.navigate('ForgotPassword' as never)}>
+        <TouchableOpacity style={styles.forgotContainer} onPress={() => navigation.navigate('EnterMobileNumber' as never)}>
           <Text style={styles.forgotText}>FORGOT YOUR PASSWORD?</Text>
         </TouchableOpacity>
 
@@ -79,9 +118,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   logo: {
-    width: '80%',
-    height: height * 0.09,
-    marginBottom: '8%',
+    width: '100%',
+    height: height * 0.08,
+    marginBottom: '10%',
+    marginTop: "5%"
   },
   logoDivider: {
     width: '100%',
@@ -104,7 +144,6 @@ const styles = StyleSheet.create({
     color: '#aaa',
     fontSize: width * 0.04,
   },
-  
   inputContainer: {
     width: '100%',
     marginBottom: '4%',
@@ -120,6 +159,26 @@ const styles = StyleSheet.create({
     paddingVertical: '3%',
     paddingHorizontal: '4%',
     fontSize: width * 0.04,
+  },
+  passwordInputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    borderRadius: 10,
+  },
+  passwordInput: {
+    flex: 1,
+    paddingVertical: '3%',
+    paddingHorizontal: '4%',
+    fontSize: width * 0.04,
+  },
+  showHideButton: {
+    paddingHorizontal: 10,
+  },
+  showHideText: {
+    color: '#FFD700',
+    fontWeight: 'bold',
+    fontSize: width * 0.035,
   },
   loginButton: {
     backgroundColor: '#D4A437',

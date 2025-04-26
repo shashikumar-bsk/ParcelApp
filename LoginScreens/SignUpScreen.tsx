@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -10,13 +10,39 @@ import {
   ScrollView,
   KeyboardAvoidingView,
   Platform,
-  Dimensions
+  Dimensions,
+  Alert
 } from 'react-native';
+import { postSignup } from '../Api-requests/LoginApi';
 
 const { width, height } = Dimensions.get('window');
 
 const SignUpScreen = () => {
-    const navigation = useNavigation();
+  const navigation = useNavigation();
+  const [fullname, setFullname] = useState('');
+  const [phone, setPhone] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false); // 👈 Added for show/hide password
+
+  const handleSignup = async () => {
+    if (!fullname || !phone || !email || !password) {
+      Alert.alert('Error', 'Please fill in all fields');
+      return;
+    }
+
+    try {
+      const signupData = { fullname, email, password, phone };
+      const response = await postSignup(signupData);
+
+      Alert.alert('Success', 'User registered successfully');
+      navigation.navigate('Login' as never);
+    } catch (error: any) {
+      console.error('Signup error:', error.message);
+      Alert.alert('Signup Failed', error.message || 'Something went wrong');
+    }
+  };
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
@@ -34,7 +60,6 @@ const SignUpScreen = () => {
         />
         <View style={styles.logoDivider} />
 
-        {/* Title inside input container */}
         <View style={styles.inputContainer}>
           <Text style={styles.title}>
             Send a parcel to your loved ones in Less than a day OR Earn as a passenger and Fly for free
@@ -47,6 +72,8 @@ const SignUpScreen = () => {
             style={styles.input}
             placeholder="Enter full name..."
             placeholderTextColor="#ccc"
+            value={fullname}
+            onChangeText={setFullname}
           />
         </View>
 
@@ -56,6 +83,9 @@ const SignUpScreen = () => {
             style={styles.input}
             placeholder="Enter mobile number..."
             placeholderTextColor="#ccc"
+            keyboardType="phone-pad"
+            value={phone}
+            onChangeText={setPhone}
           />
         </View>
 
@@ -66,25 +96,36 @@ const SignUpScreen = () => {
             placeholder="Enter email..."
             keyboardType="email-address"
             placeholderTextColor="#ccc"
+            value={email}
+            onChangeText={setEmail}
           />
         </View>
 
         <View style={styles.inputContainer}>
           <Text style={styles.label}>Password</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Enter password..."
-            secureTextEntry
-            placeholderTextColor="#ccc"
-          />
+          <View style={styles.passwordContainer}>
+            <TextInput
+              style={[styles.input, { flex: 1 }]}
+              placeholder="Enter password..."
+              placeholderTextColor="#ccc"
+              secureTextEntry={!showPassword}
+              value={password}
+              onChangeText={setPassword}
+            />
+            <TouchableOpacity style={styles.showHideButton} onPress={() => setShowPassword(!showPassword)}>
+              <Text style={styles.showHideText}>
+                {showPassword ? 'HIDE' : 'SHOW'}
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
 
-        <TouchableOpacity style={styles.signupButton}>
+        <TouchableOpacity style={styles.signupButton} onPress={handleSignup}>
           <Text style={styles.signupText}>SIGNUP</Text>
         </TouchableOpacity>
 
         <Text style={styles.footerText}>
-          Already Have An Account? <Text style={styles.loginText}  onPress={() => navigation.navigate('Login' as never)}>LOG IN</Text>
+          Already Have An Account? <Text style={styles.loginText} onPress={() => navigation.navigate('Login' as never)}>LOG IN</Text>
         </Text>
       </ScrollView>
     </KeyboardAvoidingView>
@@ -105,7 +146,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: height * 0.08,
     marginBottom: '10%',
-    marginTop:"5%"
+    marginTop: "5%"
   },
   logoDivider: {
     height: 1,
@@ -132,8 +173,24 @@ const styles = StyleSheet.create({
   input: {
     backgroundColor: '#fff',
     borderRadius: 8,
-    paddingVertical: '3%',
+    paddingVertical: '4%',
     paddingHorizontal: '4%',
+  },
+  passwordContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    borderRadius: 8,
+    paddingHorizontal: '4%',
+    paddingVertical: '1%',    // unified 3% vertical padding
+  },
+  showHideText: {
+    color: '#FFD700',
+    fontWeight: 'bold',
+    marginLeft: 'auto',
+  },
+  showHideButton: {
+    paddingHorizontal: 10,
   },
   signupButton: {
     backgroundColor: '#D4A437',
