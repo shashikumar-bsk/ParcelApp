@@ -65,11 +65,14 @@ const SendParcelScreen = () => {
         <View style={styles.inputContainer}>
           <Text style={styles.label}>Product Description</Text>
           <TextInput
-            style={styles.input}
-            placeholder="Describe the product you want to send..."
-            placeholderTextColor="#ccc"
-            value={productDescription}
-            onChangeText={setProductDescription}
+          style={[styles.input, styles.descriptionInput]}
+          placeholder="Describe the product you want to send..."
+          placeholderTextColor="#ccc"
+          value={productDescription}
+          onChangeText={setProductDescription}
+          multiline={true}
+          numberOfLines={4}
+          textAlignVertical="top"
           />
         </View>
 
@@ -88,7 +91,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: '#000',
     paddingHorizontal: '6%',
-    paddingTop: '20%',
+    paddingTop: '10%',
     paddingBottom: '5%',
     flexGrow: 1,
   },
@@ -97,11 +100,17 @@ const styles = StyleSheet.create({
     fontSize: width * 0.06,
     fontWeight: 'bold',
     marginBottom: '8%',
+    paddingBottom: '2%',
     textAlign: 'center',
+    borderBottomWidth:1,
+    borderBottomColor:'#FFD700',
   },
   inputContainer: {
     width: '100%',
     marginBottom: '6%',
+  },
+  descriptionInput: {
+    minHeight: 120,
   },
   label: {
     color: '#FFD700',
@@ -122,7 +131,7 @@ const styles = StyleSheet.create({
   },
   picker: {
     width: '100%',
-    height: 50,
+    height: 60,
     color: '#000',
   },
   nextButton: {

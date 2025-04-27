@@ -96,8 +96,11 @@ const styles = StyleSheet.create({
     color: '#FFD700',
     fontSize: width * 0.06,
     fontWeight: 'bold',
-    textAlign: 'center',
     marginBottom: '8%',
+    paddingBottom: '2%',
+    textAlign: 'center',
+    borderBottomWidth:1,
+    borderBottomColor:'#FFD700',
   },
   card: {
     backgroundColor: '#1a1a1a',

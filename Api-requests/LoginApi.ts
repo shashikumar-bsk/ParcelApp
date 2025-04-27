@@ -109,3 +109,26 @@ export const postLogin = async (data: any) => {
       );
     }
   };
+
+  export const getProfile = async (userId: string, token: string) => {
+    try {
+      const response = await axios({
+        method: 'get',
+        url: `${origin}/api/v1/user/${userId}`,
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+  
+      const responseData = response.data;
+      return responseData;
+    } catch (error: any) {
+      console.error('Get profile error:', error);
+      throw new Error(
+        error.response?.data?.message ||
+        error.response?.data?.error ||
+        'Failed to fetch profile. Please try again.'
+      );
+    }
+  };

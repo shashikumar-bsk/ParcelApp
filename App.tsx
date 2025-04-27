@@ -13,7 +13,7 @@ import ReceiverDetailsScreen from './Components/ReceiverDetailsScreen';
 import ParcelSummaryScreen from './Components/ParcelSummaryScreen';
 import ParcelTrackingScreen from './Components/ParcelTrackingScreen';
 import DeliveryPartnerScreen from './Components/DeliveryPartnerScreen/DeliveryPartnerScreen';
-
+import ProfileScreen from './Components/ProfileScreen';
 
 
 const Stack = createNativeStackNavigator<RootParamList>();
@@ -31,10 +31,7 @@ export default function App() {
           <Stack.Screen
             name="Home"
             component={HomeScreen}
-            options={{
-              headerStyle: { backgroundColor: 'black' },
-              headerTintColor: 'white',
-            }}
+            options={{headerShown: false}}
           />
           <Stack.Screen
             name="Login"
@@ -54,7 +51,7 @@ export default function App() {
           component={ResetPasswordScreen} 
           options={{ headerShown: false, animation: 'slide_from_right', }} />
 
-<Stack.Screen
+          <Stack.Screen
             name="SendParcelScreen"
             component={SendParcelScreen}
             options={{ headerShown: false, animation: 'slide_from_right' }}
@@ -79,8 +76,17 @@ export default function App() {
             component={DeliveryPartnerScreen}
             options={{ headerShown: false, animation: 'slide_from_right' }}
           />
+          <Stack.Screen
+            name="ProfileScreen"
+            component={ProfileScreen}
+            options={{ headerShown: false, animation: 'slide_from_right' }}
+          />
+
+
+          
 
         </Stack.Group>
+
 
       </Stack.Navigator>
     </NavigationContainer>

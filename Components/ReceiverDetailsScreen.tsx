@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: '#000',
     paddingHorizontal: '6%',
-    paddingTop: '20%',
+    paddingTop: '10%',
     paddingBottom: '5%',
     flexGrow: 1,
   },
@@ -146,7 +146,10 @@ const styles = StyleSheet.create({
     fontSize: width * 0.06,
     fontWeight: 'bold',
     marginBottom: '8%',
+    paddingBottom: '2%',
     textAlign: 'center',
+    borderBottomWidth:1,
+    borderBottomColor:'#FFD700',
   },
   inputContainer: {
     width: '100%',
