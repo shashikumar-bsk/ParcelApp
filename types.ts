@@ -7,5 +7,17 @@ export type RootParamList = {
     EnterMobileNumber: undefined;
     EnterOtp: { mobileNumber: string; orderId: string }; // Define the parameters for EnterOtp screen
     ResetPassword: { mobileNumber: string;  }; // Define the parameters for ResetPassword screen
+    SendParcelScreen: undefined;
+  ReceiverDetailsScreen: undefined;
+  ParcelSummaryScreen: {
+    weight: string;
+    productDescription: string;
+    receiverName: string;
+    receiverAddress: string;
+    receiverNumber: string;
+    receiverLocation: string;
+  };
+  ParcelTrackingScreen:undefined;
+  DeliveryPartnerScreen:undefined;
   };
   
