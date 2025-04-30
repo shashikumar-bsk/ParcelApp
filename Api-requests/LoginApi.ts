@@ -7,7 +7,7 @@ export const postSignup = async (data: any) => {
   try {
     const response = await axios({
       method: 'post',
-      url: `${origin}/api/v1/user`,
+      url: `${origin}/api/v1/xlruser`,
       headers: {
         "Content-Type": "application/json",
       },
@@ -28,7 +28,7 @@ export const postLogin = async (data: any) => {
     try {
       const response = await axios({
         method: 'post',
-        url: `${origin}/api/v1/user/login`,
+        url: `${origin}/api/v1/xlruser/login`,
         headers: {
           "Content-Type": "application/json",
         },
@@ -49,7 +49,7 @@ export const postLogin = async (data: any) => {
     try {
       const response = await axios({
         method: 'post',
-        url: `${origin}/api/v1/otp/send-otp`, // your backend send-otp route
+        url: `${origin}/api/v1/xlrUserOtp/send-otp`, // your backend send-otp route
         headers: {
           'Content-Type': 'application/json',
         },
@@ -70,7 +70,7 @@ export const postLogin = async (data: any) => {
     try {
       const response = await axios({
         method: 'post',
-        url: `${origin}/api/v1/otp/verify-otp`, // your backend verify-otp route
+        url: `${origin}/api/v1/xlrUserOtp/verify-otp`, // your backend verify-otp route
         headers: {
           'Content-Type': 'application/json',
         },
@@ -91,7 +91,7 @@ export const postLogin = async (data: any) => {
     try {
       const response = await axios({
         method: 'put',
-        url: `${origin}/api/v1/user/reset-password`, // Your backend reset-password route
+        url: `${origin}/api/v1/xlruser/reset-password`, // Your backend reset-password route
         headers: {
           'Content-Type': 'application/json',
         },
@@ -110,11 +110,11 @@ export const postLogin = async (data: any) => {
     }
   };
 
-  export const getProfile = async (userId: string, token: string) => {
+  export const getProfile = async (xlruserId: string, token: string) => {
     try {
       const response = await axios({
         method: 'get',
-        url: `${origin}/api/v1/user/${userId}`,
+        url: `${origin}/api/v1/xlruser/${xlruserId}`,
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',

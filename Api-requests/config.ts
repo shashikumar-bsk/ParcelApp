@@ -9,7 +9,7 @@ const API_DOMAIN_URL = isProduction ? PROD_API_URL : LOCAL_API_URL;
 
 const config = {
   API_DOMAIN_URL,
-  SOCKET_URL: API_DOMAIN_URL,
+  SOCKET_IO_URL: API_DOMAIN_URL,
   GOOGLE_API_KEY: isProduction 
     ? process.env.GOOGLE_API_KEY || '' 
     : 'AIzaSyA9qviqi7tO8nndT6WAP_O5qr3NrfpILl0',

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Feather, FontAwesome5, MaterialIcons, Ionicons } from '@expo/vector-icons'; // 👈 importing icons
@@ -145,7 +146,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 20,
-    paddingTop: "10%",
     paddingBottom: 10,
     backgroundColor: '#000',
   },

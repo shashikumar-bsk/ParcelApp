@@ -27,7 +27,7 @@ const SendParcelScreen = () => {
       alert('Please describe your product.');
       return;
     }
-    navigation.navigate('ReceiverDetailsScreen', { weight, productDescription });
+    navigation.navigate('PickupLocationScreen'as never);
   };
 
   return (
@@ -91,7 +91,6 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: '#000',
     paddingHorizontal: '6%',
-    paddingTop: '10%',
     paddingBottom: '5%',
     flexGrow: 1,
   },
@@ -101,7 +100,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: '8%',
     paddingBottom: '2%',
-    textAlign: 'center',
+    textAlign: 'left',
     borderBottomWidth:1,
     borderBottomColor:'#FFD700',
   },
